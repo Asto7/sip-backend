@@ -23,19 +23,30 @@ var conn = mysql.createConnection({
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
-  
+
   app.get('/data',function(req,res){
       conn.query("SELECT * FROM companies", function(error, rows, fields){
         if(!!error){
-          console.log("error");
           res.json({"error":"error"})
         }
         else{
-          console.log("sucess");
           res.json(rows)
         }
       });
     }
   )
+
+  app.get('/id',function(req,res){
+    id = req.query.id
+    conn.query("SELECT * FROM companies WHERE id="+id, function(error, rows, fields){
+      if(!!error){
+        res.json({"error":"error"})
+      }
+      else{
+        res.json(rows)
+      }
+    });
+  }
+)
 
   app.listen(5000);
